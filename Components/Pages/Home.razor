@@ -1,0 +1,19 @@
+﻿@page "/"
+
+@inject BattleService BattleService
+
+<PageTitle>Home</PageTitle>
+
+<MudContainer Class="d-flex flex-row flex-grow gap-8">
+    <PokeStats Pokemon="@BattleService.PokemonA" CurrentTurn="@BattleService.PokemonATurn" MoveFunc="TurnHandler" />
+    <PokeStats Pokemon="@BattleService.PokemonB" CurrentTurn="@(!@BattleService.PokemonATurn)" MoveFunc="TurnHandler" />
+</MudContainer>
+
+@code {
+    private void TurnHandler(Move move)
+    {
+        BattleService.DoTurn(move);
+        StateHasChanged();
+    }
+}
+

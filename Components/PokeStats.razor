@@ -1,0 +1,47 @@
+﻿<MudContainer>
+    <MudText Class="@($"{Pokemon.Colour}")" Align="Align.Center" Typo="Typo.h4">@Pokemon.Name</MudText>
+    <MudImage Class="rounded-lg mx-18" Width="400" Src="@Pokemon.ImageName" />
+    <MudGrid Class="mt-2" Justify="Justify.Center">
+        <MudItem xs="2">
+            <MudText>HP: @Pokemon.HitPoints</MudText>
+        </MudItem>
+        <MudItem xs="10 ">
+            <MudProgressLinear Color="Color.Primary" Value="@Pokemon.HitPoints" Class="mt-2" />
+        </MudItem>
+    </MudGrid>
+    
+    <MudText>Defence: @Pokemon.Defence</MudText>
+    <MudText>Attack: @Pokemon.Defence</MudText>
+
+    <MudGrid Justify="Justify.Center">
+        <MudItem xs="10">
+            <MudSelect @bind-Value="@selectedMove" HelperText="Select move" T="Move" Label="Abilities" Variant="Variant.Text">
+                @foreach(var move in Pokemon.Moves)
+                {
+                    <MudSelectItem Value="@move" />
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="2">
+            <MudButton Class="mt-8" Color="Color.Secondary" Disabled="@(!CurrentTurn)" OnClick="DoMove" >Attack!</MudButton>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public required Pokemon Pokemon { get; set; }
+
+    [Parameter]
+    public required bool CurrentTurn { get; set; }
+
+    [Parameter]
+    public required Action<Move> MoveFunc { get; set; }
+
+    private Move selectedMove;
+
+    private void DoMove()
+    {
+        MoveFunc(selectedMove);
+    }
+}
